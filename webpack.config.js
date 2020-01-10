@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const config = {
     module: {
@@ -32,7 +33,13 @@ const clientConfig = Object.assign({}, config, {
         path: path.resolve(__dirname, 'dist'),
     },
     devtool: 'source-map',
-    mode: 'development'
+    mode: 'development',
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/server/index.html',
+            inject: false
+        })
+      ]
 });
 
 module.exports = [clientConfig, serverConfig];

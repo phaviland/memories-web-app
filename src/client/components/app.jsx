@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import PokemonApp from './pokemonApp.jsx';
+import Login from './Login.jsx';
 import {setUsername} from '../actions/accountActions';
 import {fetchMemoryWithId} from '../actions/memoryActions'
 
@@ -23,7 +23,7 @@ class App extends React.Component {
             :
             <Router>
                 <Switch>
-                    <Route path='/pokemon' component={PokemonApp} />
+                    <Route path='/login' component={Login} />
                 </Switch>
             </Router>}
         </div>
