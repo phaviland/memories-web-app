@@ -13,7 +13,8 @@ export default function memoryReducer(state = initialState, action) {
             });
         case RETRIEVED_MEMORY:
             return Object.assign({}, state, {
-                isFetching: false
+                isFetching: false,
+                //memories: action.payload
             });
         default:
             return state;

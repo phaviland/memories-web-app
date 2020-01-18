@@ -1,5 +1,6 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 const config = {
     module: {
@@ -38,6 +39,9 @@ const clientConfig = Object.assign({}, config, {
         new HtmlWebpackPlugin({
             template: './src/server/index.html',
             inject: false
+        }),
+        new webpack.DefinePlugin({
+            __API__: JSON.stringify("http://localhost:3000")
         })
       ]
 });

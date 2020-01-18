@@ -3,7 +3,8 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Login from './Login.jsx';
-import {setUsername} from '../actions/accountActions';
+import Account from './Account.jsx';
+import {retrieveSessionFromCookie} from '../actions/accountActions';
 import {fetchMemoryWithId} from '../actions/memoryActions'
 
 class App extends React.Component {
@@ -12,36 +13,36 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.props.setUsername("Peter");
-        this.props.fetchMemoryWithId("123");
+        //this.props.fetchMemoryWithId("123");
+        if (!this.props.loggedIn)
+            this.props.retrieveSessionFromCookie()
     }
 
     render() {
         return(
-        <div>
-            {this.props.isFetching ? <div> WE ARE LOADING </div>
-            :
+        <>
             <Router>
                 <Switch>
                     <Route path='/login' component={Login} />
+                    <Route path='/account' component={Account} />
                 </Switch>
-            </Router>}
-        </div>
+            </Router>
+        </>
         );
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        setUsername: (username) => dispatch(setUsername(username)),
-        fetchMemoryWithId: (memoryId) => dispatch(fetchMemoryWithId(memoryId))
+        //fetchMemoryWithId: (memoryId) => dispatch(fetchMemoryWithId(memoryId)),
+        retrieveSessionFromCookie: () => dispatch(retrieveSessionFromCookie())
     }
 }
 
 const mapStateToProps = state => {
     return {
-        username: state.account.username,
-        isFetching: state.memory.isFetching
+        //isFetching: state.memory.isFetching,
+        loggedIn: state.account.loggedIn
     }
 }
 

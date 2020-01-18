@@ -1,15 +1,21 @@
-import {SET_USERNAME} from '../actions/accountActions'
+import {SET_LOGGED_IN, SET_LOGGED_IN_ERROR} from '../actions/accountActions'
 
 const initialState = {
-    username: ''
+    loggedIn: false,
+    loggedInError: ''
 };
 
 export default function accountReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_USERNAME:
+        case SET_LOGGED_IN:
             return Object.assign({}, state, {
-                username: action.payload
+                loggedIn: true
             });
+        case SET_LOGGED_IN_ERROR: {
+            return Object.assign({}, state, {
+                loggedInError: action.payload
+            });
+        }
         default:
             return state;
     }

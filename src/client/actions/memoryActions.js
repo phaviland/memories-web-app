@@ -19,9 +19,12 @@ function retrievedMemory(json) {
 export function fetchMemoryWithId(memoryId) {
     return function(dispatch) {
         dispatch(requestMemory());        
-        axios.get('https://pokeapi.co/api/v2/pokemon/?limit=151')
+        axios.get('/secure/memory' + memoryId)
             .then(function (response) {
                dispatch(retrievedMemory(response)); 
+            })
+            .catch(function (error) {
+                console.log(error);
             });
     }
 }
