@@ -1,6 +1,7 @@
 import React from 'react';
 import {login} from '../actions/accountActions'
 import {connect} from "react-redux";
+import {Redirect} from 'react-router-dom';
 
 class Login extends React.Component {
     constructor(props) {
@@ -19,7 +20,9 @@ class Login extends React.Component {
         this.setState({[event.target.name]: event.target.value})
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
+        event.preventDefault();
+
         let hasError = false;
 
         if (this.state.username === '') {
@@ -36,33 +39,37 @@ class Login extends React.Component {
         else
             this.setState({passwordErrorMessage: ""});
 
-        this.props.login(this.state.username, this.state.password);
-        event.preventDefault();
+        await this.props.login(this.state.username, this.state.password);
+        this.props.history.push('/account');
     }
 
-    componentDidUpdate(prevProps) {
-        if(this.props.loggedIn != prevProps.loggedIn)
-            if(this.props.loggedIn)
-                this.props.history.push('/account');
-    }
+    render() {           
+        let login =  (
+            <>
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    Username:
+                    <input type="text" value={this.state.username} name="username" onChange={this.handleChange} />
+                </label>
+                {this.state.usernameErrorMessage && <p>{this.state.usernameErrorMessage}</p>} 
+                <label>
+                    Password:
+                    <input type="password" value={this.state.password} name="password" onChange={this.handleChange} />
+                </label>
+                {this.state.passwordErrorMessage && <p>{this.state.passwordErrorMessage}</p>}
+                <input type="submit" value="Submit" />
+            </form>
+            {this.props.loggedInError && <p>{this.props.loggedInError}</p>}
+            </>
+        );
 
-    render() {
+        let redirect = (
+            <Redirect to='/account' />
+        )
+
         return (
             <>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Username:
-                        <input type="text" value={this.state.username} name="username" onChange={this.handleChange} />
-                    </label>
-                    {this.state.usernameErrorMessage && <p>{this.state.usernameErrorMessage}</p>} 
-                    <label>
-                        Password:
-                        <input type="password" value={this.state.password} name="password" onChange={this.handleChange} />
-                    </label>
-                    {this.state.passwordErrorMessage && <p>{this.state.passwordErrorMessage}</p>}
-                    <input type="submit" value="Submit" />
-                </form>
-                {this.props.loggedInError && <p>{this.props.loggedInError}</p>}
+                {this.props.loggedIn ? redirect : login}
             </>
         );
     }

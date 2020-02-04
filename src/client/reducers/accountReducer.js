@@ -1,4 +1,4 @@
-import {SET_LOGGED_IN, SET_LOGGED_IN_ERROR} from '../actions/accountActions'
+import {SET_LOGGED_IN, SET_LOGGED_IN_ERROR, SET_LOGGED_OUT} from '../actions/accountActions'
 
 const initialState = {
     loggedIn: false,
@@ -15,6 +15,9 @@ export default function accountReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 loggedInError: action.payload
             });
+        }
+        case SET_LOGGED_OUT: {
+            return Object.assign({}, initialState);
         }
         default:
             return state;

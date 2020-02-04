@@ -1,10 +1,18 @@
 import React from 'react';
-import {login} from '../actions/accountActions'
+import {setLoggedOut} from '../actions/accountActions'
 import {connect} from "react-redux";
 
 class Account extends React.Component {
     constructor(props) {
         super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        localStorage.clear();
+        this.props.logout();
+        this.props.history.push('/login');
     }
 
     render() {
@@ -13,6 +21,9 @@ class Account extends React.Component {
                 <p>
                     Welcome, your token is: {localStorage.getItem("Token")}
                 </p>
+                <form onSubmit={this.handleSubmit}>
+                    <input type="submit" value="Logout" />
+                </form>
             </>
         );
     }
@@ -20,6 +31,7 @@ class Account extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
+        logout: () => dispatch(setLoggedOut())
     }
 }
 
