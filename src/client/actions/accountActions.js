@@ -10,19 +10,18 @@ export const setLoggedInError = createAction(SET_LOGGED_IN_ERROR);
 export const setLoggedOut = createAction(SET_LOGGED_OUT);
 
 export function login(username, password) {
-    return async function(dispatch) {   
-        await axios.post(__API__ + "/login", {
-            "username": username,
-            "password": password
-            })
-            .then(function (response) {
-                localStorage.setItem("Token", response.data.Token);
-                dispatch(setLoggedIn());
-            })
-            .catch(function (error) {
-                dispatch(setLoggedInError("Incorrect username/password"));
-                console.log(error);
-            });
+    return async function(dispatch) {
+        try {
+            let response = await axios.post(__API__ + "/login", {
+                "username": username,
+                "password": password
+                });
+            localStorage.setItem("Token", response.data.Token);
+            dispatch(setLoggedIn());
+            return({status: 0, message: 'Login successful.'});
+        } catch (error) {
+            return({status: -1, message: 'Incorrect username/password', error: error});
+        }
     }
 }
 

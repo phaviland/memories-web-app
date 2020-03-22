@@ -9,8 +9,7 @@ class Login extends React.Component {
         this.state = {
             username: '',
             password: '',
-            usernameErrorMessage: '',
-            passwordErrorMessage: '',
+            errors: {}
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,25 +21,33 @@ class Login extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+        this.setState({errors: {}})
 
         let hasError = false;
-
         if (this.state.username === '') {
-            this.setState({usernameErrorMessage: 'Missing username'});
+            this.setState((prevState) => {
+                return {errors: {...prevState.errors, usernameErrorMessage: 'Missing username'}};
+            });
             hasError = true;
         }
-        else
-            this.setState({usernameErrorMessage: ''});
 
         if (this.state.password === '') {
-            this.setState({passwordErrorMessage: "Missing password"});
+            this.setState((prevState) => {
+                return {errors: {...prevState.errors, passwordErrorMessage: 'Missing password'}};
+            });
             hasError = true;
         }
-        else
-            this.setState({passwordErrorMessage: ""});
 
-        await this.props.login(this.state.username, this.state.password);
-        this.props.history.push('/account');
+        if (!hasError) {
+            let result = await this.props.login(this.state.username, this.state.password);
+            if (result.status != 0) {
+                this.setState((prevState) => {
+                    return {errors: {...prevState.errors, loginErrorMessage: result.message}};
+                });
+            } else
+                this.props.history.push('/account');
+        }
+        
     }
 
     render() {           
@@ -51,15 +58,15 @@ class Login extends React.Component {
                     Username:
                     <input type="text" value={this.state.username} name="username" onChange={this.handleChange} />
                 </label>
-                {this.state.usernameErrorMessage && <p>{this.state.usernameErrorMessage}</p>} 
+                {this.state.errors.usernameErrorMessage && <p>{this.state.errors.usernameErrorMessage}</p>} 
                 <label>
                     Password:
                     <input type="password" value={this.state.password} name="password" onChange={this.handleChange} />
                 </label>
-                {this.state.passwordErrorMessage && <p>{this.state.passwordErrorMessage}</p>}
+                {this.state.errors.passwordErrorMessage && <p>{this.state.errors.passwordErrorMessage}</p>}
                 <input type="submit" value="Submit" />
             </form>
-            {this.props.loggedInError && <p>{this.props.loggedInError}</p>}
+            {this.state.errors.loginErrorMessage && <p>{this.state.errors.loginErrorMessage}</p>}
             </>
         );
 

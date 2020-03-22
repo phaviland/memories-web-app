@@ -1,9 +1,9 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Login from './Login.jsx';
 import Account from './Account.jsx';
+import Navigation from './Navigation.jsx';
 import {retrieveSessionFromCookie} from '../actions/accountActions';
 import {fetchMemoryWithId} from '../actions/memoryActions'
 
@@ -22,6 +22,7 @@ class App extends React.Component {
         return(
         <>
             <Router>
+                <Navigation />
                 <Switch>
                     <Route path='/login' component={Login} />
                     <Route path='/account' component={Account} />
