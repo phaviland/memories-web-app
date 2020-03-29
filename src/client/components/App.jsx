@@ -6,6 +6,7 @@ import Account from './Account.jsx';
 import Navigation from './Navigation.jsx';
 import {retrieveSessionFromCookie} from '../actions/accountActions';
 import {fetchMemoryWithId} from '../actions/memoryActions'
+import '../stylesheets/base.scss'
 
 class App extends React.Component {
     constructor(props) {

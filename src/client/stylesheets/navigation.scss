@@ -1,0 +1,19 @@
+.nav-url {
+    display: inline-block;
+    width: 200px;
+}
+
+.active-url {
+    display: inline-block;
+    background-color: lightsteelblue;
+    width: 200px;
+    height: 5px;
+    transition: transform .2s ease;
+    transform-origin: 0 0;
+}
+
+.underline-container {
+    display: inline-block;
+    width: 200px;
+    height: 5px;
+}

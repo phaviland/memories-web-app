@@ -1,7 +1,8 @@
 import React from 'react';
 import {login} from '../actions/accountActions'
-import {connect} from "react-redux";
+import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
+import '../stylesheets/login.scss'
 
 class Login extends React.Component {
     constructor(props) {
@@ -52,22 +53,22 @@ class Login extends React.Component {
 
     render() {           
         let login =  (
-            <>
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    Username:
-                    <input type="text" value={this.state.username} name="username" onChange={this.handleChange} />
-                </label>
-                {this.state.errors.usernameErrorMessage && <p>{this.state.errors.usernameErrorMessage}</p>} 
-                <label>
-                    Password:
-                    <input type="password" value={this.state.password} name="password" onChange={this.handleChange} />
-                </label>
-                {this.state.errors.passwordErrorMessage && <p>{this.state.errors.passwordErrorMessage}</p>}
-                <input type="submit" value="Submit" />
-            </form>
-            {this.state.errors.loginErrorMessage && <p>{this.state.errors.loginErrorMessage}</p>}
-            </>
+            <div className='login-form'>
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        <input type='text' value={this.state.username} name='username' placeholder='Username' onChange={this.handleChange} />
+                        <br />
+                    </label>
+                    {this.state.errors.usernameErrorMessage && <p>{this.state.errors.usernameErrorMessage}</p>} 
+                    <label>
+                        <input type='password' value={this.state.password} name='password' placeholder='Password' onChange={this.handleChange} />
+                    </label>
+                    {this.state.errors.passwordErrorMessage && <p>{this.state.errors.passwordErrorMessage}</p>}
+                    <br />
+                    <input type='submit' value='Submit' />
+                </form>
+                {this.state.errors.loginErrorMessage && <p>{this.state.errors.loginErrorMessage}</p>}
+            </div>
         );
 
         let redirect = (
